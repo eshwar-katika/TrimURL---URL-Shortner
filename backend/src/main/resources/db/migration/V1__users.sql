@@ -1,0 +1,19 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE api_keys (
+    id BIGSERIAL PRIMARY KEY,
+    key_val VARCHAR(64) NOT NULL UNIQUE,
+    user_id BIGINT NOT NULL,
+    status VARCHAR(20) DEFAULT 'ACTIVE' NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT fk_api_keys_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_api_keys_val ON api_keys(key_val);

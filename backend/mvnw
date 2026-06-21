@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+LOCAL_MAVEN="$SCRIPT_DIR/../.maven/apache-maven-3.9.6/bin/mvn"
+
+if [ -x "$LOCAL_MAVEN" ]; then
+  exec "$LOCAL_MAVEN" "$@"
+fi
+
+echo "Local Maven distribution not found at $LOCAL_MAVEN. Falling back to mvn on PATH." >&2
+exec mvn "$@"
